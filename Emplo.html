@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Details Form</title>
+    <style>       
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        input[type="text"], input[type="email"], input[type="tel"] {
+            width: 100%;
+            padding: 6px;
+            box-sizing: border-box;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Employee Login Details</h1>
+    <form id="employeeForm">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" pattern="[A-Za-z ]+" title="Only alphabets and spaces allowed" required><br>
+        <span class="error" id="firstNameError"></span><br>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" pattern="[A-Za-z ]+" title="Only alphabets and spaces allowed" required><br>
+        <span class="error" id="lastNameError"></span><br>
+
+        <label for="designation">Designation:</label>
+        <input type="text" id="designation" name="designation" pattern="[A-Za-z ]+" title="Only alphabets and spaces allowed" required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" pattern="[a-zA-Z][a-zA-Z0-9._%+-]+@gmail\.com" title="Should start with an alphabet and end with @gmail.com" required><br>
+        <span class="error" id="emailError"></span><br>
+
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone" pattern="[1-9][0-9]{9}" title="Should not start with zero and should be 10 digits" required><br>
+        <span class="error" id="phoneError"></span><br>
+
+        <button type="button" onclick="addEmployee()">Add Employee</button>
+    </form>
+
+    <h2>Employee Details</h2>
+    <table id="employeeTable">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Designation</th>
+            <th>Email</th>
+            <th>Phone</th>
+        </tr>
+    </table>
+
+    <script>
+        let employeeCounter = 0; 
+
+
+        function addEmployee() {
+            if (employeeCounter >= 10) {
+                alert("Maximum employee limit reached (10 employees).");
+                return;
+            }
+    // Validation code for each field
+    const firstNameInput = document.getElementById("firstName");
+    const lastNameInput = document.getElementById("lastName");
+    const emailInput = document.getElementById("email");
+    const phoneInput = document.getElementById("phone");
+
+    const firstNameError = document.getElementById("firstNameError");
+    const lastNameError = document.getElementById("lastNameError");
+    const emailError = document.getElementById("emailError");
+    const phoneError = document.getElementById("phoneError");
+
+    firstNameError.textContent = "";
+    lastNameError.textContent = "";
+    emailError.textContent = "";
+    phoneError.textContent = "";
+
+    let isValid = true;
+
+    if (!/^[A-Za-z ]+$/.test(firstNameInput.value)) {
+        firstNameError.textContent = "Invalid input. Only alphabets and spaces allowed.";
+        isValid = false;
+    }
+
+    if (!/^[A-Za-z ]+$/.test(lastNameInput.value)) {
+        lastNameError.textContent = "Invalid input. Only alphabets and spaces allowed.";
+        isValid = false;
+    }
+
+    if (!/^[a-zA-Z][a-zA-Z0-9._%+-]+@gmail\.com$/.test(emailInput.value)) {
+        emailError.textContent = "Invalid input. Should start with an alphabet and end with @gmail.com.";
+        isValid = false;
+    }
+
+    if (!/^[1-9][0-9]{9}$/.test(phoneInput.value)) {
+        phoneError.textContent = "Invalid input. Should not start with zero and should be 10 digits.";
+        isValid = false;
+    }
+
+    if (!isValid) {
+        return;
+    }
+    
+    const firstName = firstNameInput.value;
+    const lastName = lastNameInput.value;
+    const designation = document.getElementById("designation").value;
+    const email = emailInput.value;
+    const phone = phoneInput.value;
+
+    const table = document.getElementById("employeeTable");
+    const newRow = table.insertRow(table.rows.length);
+
+    for (let i = 0; i < 5; i++) {
+        const cell = newRow.insertCell(i);
+        const value = [firstName, lastName, designation, email, phone][i];
+        cell.textContent = value;
+    }
+
+    employeeCounter++; 
+
+    if (employeeCounter >= 10) {
+        document.getElementById("employeeForm").querySelector("button").disabled = true;
+    }
+
+    document.getElementById("employeeForm").reset();
+}
+
+    </script>
+</body>
+</html>
